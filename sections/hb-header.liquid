@@ -102,19 +102,24 @@
   .hb-header-wrap {
     position: relative;
     z-index: 60;
+    margin: 0;
+    padding: 0;
   }
 
   .hb-header {
-    background: #F2E9E4;
+    background: #f6b3c7;
     border-bottom: 1px solid rgba(90, 62, 40, 0.15);
+    margin: 0;
   }
 
   .hb-header__inner {
-    min-height: 96px;
+    min-height: 110px;
     display: grid;
     grid-template-columns: auto 1fr auto;
     align-items: center;
-    gap: 28px;
+    gap: 34px;
+    padding-top: 0;
+    padding-bottom: 0;
   }
 
   .hb-header__left {
@@ -131,14 +136,14 @@
   }
 
   .hb-logo__img {
-    height: {{ section.settings.logo_height }}px;
+    height: {{ section.settings.logo_height | plus: 8 }}px;
     width: auto;
     display: block;
   }
 
   .hb-logo__text {
     font-family: Georgia, serif;
-    font-size: 2rem;
+    font-size: 2.25rem;
     letter-spacing: 0.01em;
   }
 
@@ -150,7 +155,7 @@
     list-style: none;
     display: flex;
     align-items: center;
-    gap: 28px;
+    gap: 34px;
     margin: 0;
     padding: 0;
   }
@@ -158,9 +163,9 @@
   .hb-nav__link {
     text-decoration: none;
     color: #6a452f;
-    font-size: 1rem;
+    font-size: 1.12rem;
     line-height: 1;
-    padding-bottom: 4px;
+    padding-bottom: 6px;
     border-bottom: 1px solid transparent;
     transition: opacity 0.15s ease, border-color 0.15s ease;
   }
@@ -174,12 +179,12 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: 12px;
+    gap: 16px;
   }
 
   .hb-icon {
-    width: 28px;
-    height: 28px;
+    width: 34px;
+    height: 34px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -189,8 +194,8 @@
   }
 
   .hb-icon svg {
-    width: 22px;
-    height: 22px;
+    width: 25px;
+    height: 25px;
     fill: none;
     stroke: currentColor;
     stroke-width: 1.6;
@@ -317,7 +322,7 @@
 
   @media (max-width: 989px) {
     .hb-header__inner {
-      min-height: 76px;
+      min-height: 84px;
       grid-template-columns: auto 1fr auto;
       gap: 12px;
     }
@@ -333,7 +338,7 @@
     }
 
     .hb-logo__img {
-      height: {{ section.settings.logo_height | minus: 4 | at_least: 24 }}px;
+      height: {{ section.settings.logo_height | plus: 2 }}px;
     }
   }
 </style>
