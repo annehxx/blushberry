@@ -43,13 +43,19 @@
 
   .hb-ann__wrap{
     display:flex;
-    justify-content:space-between;
+    justify-content:center;
     align-items:center;
     gap: 12px;
     padding: 10px 0;
     position:relative;
   }
-  .hb-ann__left{ display:flex; align-items:center; gap:10px; min-width:0; }
+  .hb-ann__left{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    min-width:0;
+  }
   .hb-ann__badge{
     display:inline-flex;
     padding: .2rem .55rem;
@@ -70,6 +76,8 @@
     text-overflow:ellipsis;
   }
   .hb-ann__link{
+    position:absolute;
+    right:0;
     font-size:.95rem;
     text-decoration:none;
     border-bottom: 1px solid color-mix(in srgb, var(--hb-ink) 28%, transparent);
