@@ -29,9 +29,20 @@
         "padding_top": 20,
         "padding_bottom": 20
       }
+    },
+    "hb_announcement_fYPaLh": {
+      "type": "hb-announcement",
+      "name": "HB Announcement Bar",
+      "settings": {
+        "badge": "NEW DROP",
+        "text": "clean girl meets soft rebellion ✧ printed to order ✧",
+        "link_label": "Shop now",
+        "link_url": ""
+      }
     }
   },
   "order": [
+    "hb_announcement_fYPaLh",
     "header"
   ]
 }
