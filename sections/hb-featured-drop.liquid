@@ -1,0 +1,81 @@
+<section class="section">
+  <div class="page-width">
+    <header class="hb-drop__head">
+      <div>
+        <div class="hb-kicker">{{ section.settings.kicker | escape }}</div>
+        <h2 class="hb-drop__title">{{ section.settings.title | escape }}</h2>
+        {% if section.settings.subtitle != blank %}
+          <p class="hb-drop__sub">{{ section.settings.subtitle | escape }}</p>
+        {% endif %}
+      </div>
+
+      {% if section.settings.link_label != blank and section.settings.link_url != blank %}
+        <a class="button button--secondary" href="{{ section.settings.link_url }}">{{ section.settings.link_label | escape }}</a>
+      {% endif %}
+    </header>
+
+    {% if section.settings.collection != blank %}
+      <div class="hb-drop__grid">
+        {% for product in section.settings.collection.products limit: section.settings.limit %}
+          <a class="hb-card hb-glass" href="{{ product.url }}">
+            <div class="hb-card__img">
+              {% if product.featured_image %}
+                {{ product.featured_image | image_url: width: 900 | image_tag: loading: 'lazy' }}
+              {% endif %}
+            </div>
+            <div class="hb-card__meta">
+              <div class="hb-card__title">{{ product.title }}</div>
+              <div class="hb-card__price">{{ product.price | money }}</div>
+            </div>
+          </a>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="hb-glass" style="padding:18px;">Pick a collection in the section settings.</div>
+    {% endif %}
+  </div>
+</section>
+
+<style>
+  .hb-drop__head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap: 16px;
+    margin-bottom: 14px;
+  }
+  .hb-drop__title{ margin: 8px 0 4px; font-size: clamp(1.7rem, 2.4vw, 2.3rem); }
+  .hb-drop__sub{ margin:0; opacity:.85; max-width: 70ch; }
+
+  .hb-drop__grid{
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+  }
+
+  .hb-card{ overflow:hidden; text-decoration:none; color:inherit; }
+  .hb-card__img img{ width:100%; height:auto; display:block; }
+  .hb-card__meta{ padding: 12px 12px 14px; display:flex; justify-content:space-between; gap:12px; }
+  .hb-card__title{ font-weight:650; line-height:1.2; }
+  .hb-card__price{ opacity:.8; white-space:nowrap; }
+
+  .hb-card:hover{ transform: translateY(-2px); transition: transform .15s ease; }
+
+  @media (max-width: 980px){ .hb-drop__grid{ grid-template-columns: repeat(2, 1fr); } }
+</style>
+
+{% schema %}
+{
+  "name": "HB Featured Drop (Collection)",
+  "settings": [
+    { "type":"text", "id":"kicker", "label":"Kicker", "default":"Drop" },
+    { "type":"text", "id":"title", "label":"Title", "default":"Shop the new drop" },
+    { "type":"text", "id":"subtitle", "label":"Subtitle", "default":"Cozy tees with pretty words and a little attitude." },
+    { "type":"collection", "id":"collection", "label":"Collection" },
+    { "type":"range", "id":"limit", "label":"Products to show", "min": 4, "max": 12, "step": 1, "default": 8 },
+    { "type":"text", "id":"link_label", "label":"Right-side button label", "default":"View all" },
+    { "type":"url", "id":"link_url", "label":"Right-side button link" }
+  ],
+  "presets":[{ "name":"HB Featured Drop (Collection)" }]
+}
+{% endschema %}
