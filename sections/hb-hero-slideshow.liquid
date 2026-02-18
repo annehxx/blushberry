@@ -1,0 +1,152 @@
+<section class="section hb-y2k-sparkle">
+  <div class="page-width">
+    <div class="hb-hero hb-glass">
+      <div class="hb-hero__track" id="hbHeroTrack-{{ section.id }}">
+        {% for block in section.blocks %}
+          <article class="hb-hero__slide" {{ block.shopify_attributes }}>
+            <div class="hb-hero__copy">
+              {% if block.settings.kicker != blank %}
+                <div class="hb-kicker">{{ block.settings.kicker | escape }}</div>
+              {% endif %}
+              <h1 class="hb-hero__title">{{ block.settings.title | escape }}</h1>
+              {% if block.settings.text != blank %}
+                <p class="hb-hero__text">{{ block.settings.text | escape }}</p>
+              {% endif %}
+              <div class="hb-hero__cta">
+                {% if block.settings.btn_label != blank and block.settings.btn_link != blank %}
+                  <a class="button button--primary" href="{{ block.settings.btn_link }}">{{ block.settings.btn_label | escape }}</a>
+                {% endif %}
+                {% if block.settings.sub_label != blank and block.settings.sub_link != blank %}
+                  <a class="button button--secondary" href="{{ block.settings.sub_link }}">{{ block.settings.sub_label | escape }}</a>
+                {% endif %}
+              </div>
+              {% if block.settings.note != blank %}
+                <div class="hb-hero__note hb-pill">{{ block.settings.note | escape }}</div>
+              {% endif %}
+            </div>
+
+            <div class="hb-hero__media">
+              {% if block.settings.image != blank %}
+                {{ block.settings.image | image_url: width: 1600 | image_tag: loading: 'lazy', class: 'hb-hero__img' }}
+              {% else %}
+                <div class="hb-hero__ph">Upload an image</div>
+              {% endif %}
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+
+      <div class="hb-hero__dots" aria-label="Slide controls">
+        {% for block in section.blocks %}
+          <button class="hb-dot" type="button" data-index="{{ forloop.index0 }}" aria-label="Go to slide {{ forloop.index }}"></button>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hb-hero{ padding: clamp(14px, 2vw, 18px); }
+  .hb-hero__track{ position:relative; overflow:hidden; border-radius: var(--hb-radius); }
+  .hb-hero__slide{
+    display:grid;
+    grid-template-columns: 1.1fr .9fr;
+    gap: clamp(16px, 2.6vw, 28px);
+    align-items:center;
+    padding: clamp(18px, 3vw, 36px);
+    min-height: clamp(420px, 52vh, 620px);
+  }
+  .hb-hero__title{
+    font-size: clamp(2.3rem, 4.6vw, 4.2rem);
+    line-height:1.03;
+    margin:10px 0 10px;
+  }
+  .hb-hero__text{ max-width: 52ch; opacity:.9; font-size:1.05rem; line-height:1.55; margin:0 0 14px; }
+  .hb-hero__cta{ display:flex; gap:12px; flex-wrap:wrap; margin-top: 8px; }
+  .hb-hero__note{ margin-top: 14px; width: fit-content; }
+
+  .hb-hero__media{
+    border-radius: calc(var(--hb-radius) - 4px);
+    overflow:hidden;
+    border: 1px solid color-mix(in srgb, var(--hb-chrome) 35%, transparent);
+    box-shadow: 0 16px 40px rgba(0,0,0,.12);
+    position:relative;
+  }
+  .hb-hero__media:after{
+    content:"";
+    position:absolute; inset:0;
+    background: linear-gradient(120deg, rgba(232,183,199,.18), rgba(201,195,255,.14), transparent 55%);
+    pointer-events:none;
+    mix-blend-mode: screen;
+  }
+  .hb-hero__img{ width:100%; height:auto; display:block; transform: scale(1.02); }
+  .hb-hero__ph{ min-height:360px; display:grid; place-items:center; opacity:.7; }
+
+  .hb-hero__dots{ display:flex; gap:8px; justify-content:center; padding: 12px 0 2px; }
+  .hb-dot{
+    width: 10px; height:10px; border-radius:999px;
+    border:1px solid var(--hb-border);
+    background: rgba(0,0,0,.08);
+    cursor:pointer;
+  }
+  .hb-dot.is-active{ background: var(--hb-blush); box-shadow: 0 0 0 6px color-mix(in srgb, var(--hb-blush) 22%, transparent); }
+
+  @media (max-width: 900px){
+    .hb-hero__slide{ grid-template-columns:1fr; min-height:auto; }
+  }
+</style>
+
+<script>
+(function(){
+  const root = document.getElementById('hbHeroTrack-{{ section.id }}');
+  if(!root) return;
+  const slides = Array.from(root.querySelectorAll('.hb-hero__slide'));
+  const dots = Array.from(root.closest('.hb-hero').querySelectorAll('.hb-dot'));
+  let i = 0;
+
+  function show(idx){
+    i = (idx + slides.length) % slides.length;
+    slides.forEach((s, n) => s.style.display = n === i ? 'grid' : 'none');
+    dots.forEach((d, n) => d.classList.toggle('is-active', n === i));
+  }
+
+  dots.forEach(d => d.addEventListener('click', () => show(parseInt(d.dataset.index,10))));
+  slides.forEach((s,n)=>{ if(n!==0) s.style.display='none'; });
+  show(0);
+
+  {% if section.settings.autoplay %}
+    setInterval(()=>show(i+1), {{ section.settings.autoplay_ms }});
+  {% endif %}
+})();
+</script>
+
+{% schema %}
+{
+  "name": "HB Hero Slideshow (Y2K)",
+  "settings": [
+    { "type": "checkbox", "id": "autoplay", "label": "Autoplay", "default": true },
+    { "type": "range", "id": "autoplay_ms", "label": "Autoplay interval (ms)", "min": 2500, "max": 9000, "step": 500, "default": 4500 }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        { "type": "text", "id": "kicker", "label": "Kicker", "default": "honey&blush" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Clean girl,\nsoft rebellion." },
+        { "type": "text", "id": "text", "label": "Text", "default": "Cozy graphic tees with a little bite. Minimal, flirty, slightly unhinged (in a cute way)." },
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "btn_label", "label": "Primary button", "default": "Shop new drop" },
+        { "type": "url", "id": "btn_link", "label": "Primary link" },
+        { "type": "text", "id": "sub_label", "label": "Secondary button", "default": "See collections" },
+        { "type": "url", "id": "sub_link", "label": "Secondary link" },
+        { "type": "text", "id": "note", "label": "Small note", "default": "Printed to order • EU shipping available" }
+      ]
+    }
+  ],
+  "max_blocks": 5,
+  "presets": [
+    { "name": "HB Hero Slideshow (Y2K)", "blocks": [{ "type": "slide" },{ "type": "slide" },{ "type": "slide" }] }
+  ]
+}
+{% endschema %}
