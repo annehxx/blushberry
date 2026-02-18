@@ -6,26 +6,6 @@
   - Lightweight drawer menu (no dependencies)
 {% endcomment %}
 
-<section class="hb-header-wrap" data-hb-header>
-  {% if section.settings.show_announcement %}
-    <div class="hb-ann" role="region" aria-label="Announcement">
-      <div class="page-width hb-ann__inner">
-        <div class="hb-ann__left">
-          {% if section.settings.ann_badge != blank %}
-            <span class="hb-ann__badge">{{ section.settings.ann_badge | escape }}</span>
-          {% endif %}
-          <span class="hb-ann__text">{{ section.settings.ann_text | escape }}</span>
-        </div>
-
-        {% if section.settings.ann_link_label != blank and section.settings.ann_link_url != blank %}
-          <a class="hb-ann__link" href="{{ section.settings.ann_link_url }}">
-            {{ section.settings.ann_link_label | escape }}
-          </a>
-        {% endif %}
-      </div>
-    </div>
-  {% endif %}
-
   <header class="hb-header" role="banner">
     <div class="page-width hb-header__inner">
       <!-- Left: Desktop menu / Mobile hamburger -->
