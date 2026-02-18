@@ -1,0 +1,98 @@
+{%- comment -%} honey&blush — Announcement Bar (Y2K cozy rebellion) {%- endcomment -%}
+
+<section class="hb-ann" role="region" aria-label="Announcement">
+  <div class="page-width hb-ann__wrap">
+    <div class="hb-ann__left">
+      {% if section.settings.badge != blank %}
+        <span class="hb-ann__badge">{{ section.settings.badge | escape }}</span>
+      {% endif %}
+      <span class="hb-ann__text">
+        {{ section.settings.text | escape }}
+      </span>
+    </div>
+
+    {% if section.settings.link_label != blank and section.settings.link_url != blank %}
+      <a class="hb-ann__link" href="{{ section.settings.link_url }}">
+        {{ section.settings.link_label | escape }}
+      </a>
+    {% endif %}
+  </div>
+</section>
+
+<style>
+  .hb-ann{
+    position: relative;
+    z-index: 50;
+    background: linear-gradient(90deg,
+      color-mix(in srgb, var(--hb-blush) 35%, transparent),
+      color-mix(in srgb, var(--hb-lilac) 28%, transparent),
+      color-mix(in srgb, var(--hb-blush) 35%, transparent)
+    );
+    border-bottom: 1px solid var(--hb-border);
+  }
+  .hb-ann:before{
+    content:"";
+    position:absolute; inset:0;
+    pointer-events:none;
+    background:
+      radial-gradient(circle at 8% 50%, rgba(255,255,255,.28), transparent 35%),
+      radial-gradient(circle at 92% 50%, rgba(255,255,255,.22), transparent 40%);
+    filter: blur(6px);
+    opacity:.9;
+  }
+
+  .hb-ann__wrap{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap: 12px;
+    padding: 10px 0;
+    position:relative;
+  }
+  .hb-ann__left{ display:flex; align-items:center; gap:10px; min-width:0; }
+  .hb-ann__badge{
+    display:inline-flex;
+    padding: .2rem .55rem;
+    border-radius:999px;
+    border: 1px solid color-mix(in srgb, var(--hb-ink) 18%, transparent);
+    background: rgba(255,255,255,.30);
+    font-size:.82rem;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    white-space:nowrap;
+  }
+  .hb-ann__text{
+    font-size:.95rem;
+    letter-spacing:.02em;
+    opacity:.9;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .hb-ann__link{
+    font-size:.95rem;
+    text-decoration:none;
+    border-bottom: 1px solid color-mix(in srgb, var(--hb-ink) 28%, transparent);
+    white-space:nowrap;
+    opacity:.9;
+  }
+  .hb-ann__link:hover{ opacity:1; }
+
+  @media (max-width: 740px){
+    .hb-ann__wrap{ justify-content:center; }
+    .hb-ann__link{ display:none; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "HB Announcement Bar",
+  "settings": [
+    { "type": "text", "id": "badge", "label": "Badge", "default": "NEW DROP" },
+    { "type": "text", "id": "text", "label": "Text", "default": "clean girl meets soft rebellion ✧ printed to order ✧" },
+    { "type": "text", "id": "link_label", "label": "Link label", "default": "Shop now" },
+    { "type": "url", "id": "link_url", "label": "Link URL" }
+  ],
+  "presets": [{ "name": "HB Announcement Bar" }]
+}
+{% endschema %}
