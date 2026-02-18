@@ -1,64 +1,69 @@
-{% comment %}
-  honey&blush — Custom Header
-  - Announcement bar (optional)
-  - Desktop: left menu, centered logo, right icons
-  - Mobile: hamburger, centered logo, icons
-  - Lightweight drawer menu (no dependencies)
+﻿{% comment %}
+  honey&blush — Header
+  Reference-inspired: warm bar, logo left, nav center-left, icons right.
 {% endcomment %}
 
+<section class="hb-header-wrap" data-hb-header>
   <header class="hb-header" role="banner">
     <div class="page-width hb-header__inner">
-      <!-- Left: Desktop menu / Mobile hamburger -->
       <div class="hb-header__left">
-        <button class="hb-burger" type="button" aria-label="Open menu" aria-controls="hbDrawer-{{ section.id }}" aria-expanded="false" data-hb-drawer-open>
+        <button
+          class="hb-burger"
+          type="button"
+          aria-label="Open menu"
+          aria-controls="hbDrawer-{{ section.id }}"
+          aria-expanded="false"
+          data-hb-drawer-open
+        >
           <span class="hb-burger__lines" aria-hidden="true"></span>
         </button>
 
-        {% if section.settings.menu != blank %}
-          <nav class="hb-nav" aria-label="Primary navigation">
-            <ul class="hb-nav__list">
-              {% for link in section.settings.menu.links %}
-                <li class="hb-nav__item">
-                  <a class="hb-nav__link" href="{{ link.url }}">{{ link.title }}</a>
-                </li>
-              {% endfor %}
-            </ul>
-          </nav>
-        {% endif %}
-      </div>
-
-      <!-- Center: Logo -->
-      <div class="hb-header__center">
         <a class="hb-logo" href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
           {% if section.settings.logo != blank %}
-            {{ section.settings.logo | image_url: width: 480 | image_tag: loading: 'eager', class: 'hb-logo__img', alt: shop.name }}
+            {{ section.settings.logo | image_url: width: 360 | image_tag: loading: 'eager', class: 'hb-logo__img', alt: shop.name }}
           {% else %}
             <span class="hb-logo__text">{{ section.settings.logo_text | default: shop.name | escape }}</span>
           {% endif %}
         </a>
-
-        {% if section.settings.tagline != blank %}
-          <div class="hb-tagline">{{ section.settings.tagline | escape }}</div>
-        {% endif %}
       </div>
 
-      <!-- Right: Icons -->
+      {% if section.settings.menu != blank %}
+        <nav class="hb-nav" aria-label="Primary navigation">
+          <ul class="hb-nav__list">
+            {% for link in section.settings.menu.links %}
+              <li class="hb-nav__item">
+                <a class="hb-nav__link{% if link.current %} is-active{% endif %}" href="{{ link.url }}">{{ link.title }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        </nav>
+      {% endif %}
+
       <div class="hb-header__right">
         {% if section.settings.show_search %}
           <a class="hb-icon" href="{{ routes.search_url }}" aria-label="Search">
-            <span aria-hidden="true">⌕</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <circle cx="11" cy="11" r="6.5"></circle>
+              <path d="M16 16l5 5"></path>
+            </svg>
           </a>
         {% endif %}
 
         {% if section.settings.show_account and shop.customer_accounts_enabled %}
           <a class="hb-icon" href="{{ routes.account_url }}" aria-label="Account">
-            <span aria-hidden="true">☺</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <circle cx="12" cy="8" r="4"></circle>
+              <path d="M4.5 20c1.8-3.8 4.3-5.6 7.5-5.6s5.7 1.8 7.5 5.6"></path>
+            </svg>
           </a>
         {% endif %}
 
         {% if section.settings.show_cart %}
           <a class="hb-icon hb-cart" href="{{ routes.cart_url }}" aria-label="Cart">
-            <span aria-hidden="true">⟡</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M7 8.5h10.5l-1.1 9.2H7.8z"></path>
+              <path d="M9 8V7a3 3 0 0 1 6 0v1"></path>
+            </svg>
             {% if cart.item_count > 0 %}
               <span class="hb-cart__bubble" aria-label="{{ cart.item_count }} items in cart">{{ cart.item_count }}</span>
             {% endif %}
@@ -68,19 +73,14 @@
     </div>
   </header>
 
-  <!-- Mobile Drawer -->
   <div class="hb-drawer" id="hbDrawer-{{ section.id }}" aria-hidden="true" data-hb-drawer>
     <div class="hb-drawer__backdrop" data-hb-drawer-close></div>
     <div class="hb-drawer__panel" role="dialog" aria-modal="true" aria-label="Menu">
       <div class="hb-drawer__top">
-        <div class="hb-drawer__title">
-          {% if section.settings.drawer_title != blank %}
-            {{ section.settings.drawer_title | escape }}
-          {% else %}
-            Menu
-          {% endif %}
-        </div>
-        <button class="hb-drawer__close" type="button" aria-label="Close menu" data-hb-drawer-close>✕</button>
+        <div class="hb-drawer__title">{{ section.settings.drawer_title | default: shop.name | escape }}</div>
+        <button class="hb-drawer__close" type="button" aria-label="Close menu" data-hb-drawer-close>
+          <span aria-hidden="true">×</span>
+        </button>
       </div>
 
       {% if section.settings.menu != blank %}
@@ -94,340 +94,304 @@
           </ul>
         </nav>
       {% endif %}
-
-      {% if section.settings.drawer_note != blank %}
-        <div class="hb-drawer__note">{{ section.settings.drawer_note | escape }}</div>
-      {% endif %}
     </div>
   </div>
 </section>
 
 <style>
-  :root{
-    --hb-cream:#FBF6EF;
-    --hb-ink:#16120F;
-    --hb-blush:#E8B7C7;
-    --hb-lilac:#C9C3FF;
-    --hb-chrome:#CFC7D6;
-    --hb-radius:18px;
-    --hb-border: color-mix(in srgb, var(--hb-ink) 14%, transparent);
-    --hb-shadow: 0 14px 40px rgba(0,0,0,.10);
+  .hb-header-wrap {
+    position: relative;
+    z-index: 60;
   }
 
-  .hb-header-wrap{ position: relative; z-index: 60; }
+  .hb-header {
+    background: #eadfa9;
+    border-bottom: 1px solid rgba(90, 62, 40, 0.15);
+  }
 
-  /* Announcement */
-  .hb-ann{
-    background: linear-gradient(90deg,
-      color-mix(in srgb, var(--hb-blush) 35%, transparent),
-      color-mix(in srgb, var(--hb-lilac) 28%, transparent),
-      color-mix(in srgb, var(--hb-blush) 35%, transparent)
-    );
-    border-bottom: 1px solid var(--hb-border);
-    position: sticky;
-    top: 0;
-    z-index: 80;
+  .hb-header__inner {
+    min-height: 96px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 28px;
   }
-  .hb-ann__inner{
-    display:flex; align-items:center; justify-content:space-between;
-    gap: 12px;
-    padding: 10px 0;
-  }
-  .hb-ann__left{ display:flex; align-items:center; gap:10px; min-width:0; }
-  .hb-ann__badge{
-    display:inline-flex;
-    padding: .18rem .55rem;
-    border-radius:999px;
-    border: 1px solid color-mix(in srgb, var(--hb-ink) 18%, transparent);
-    background: rgba(255,255,255,.30);
-    font-size:.78rem;
-    letter-spacing:.10em;
-    text-transform:uppercase;
-    white-space:nowrap;
-  }
-  .hb-ann__text{
-    font-size:.95rem;
-    letter-spacing:.02em;
-    opacity:.9;
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-  }
-  .hb-ann__link{
-    font-size:.95rem;
-    text-decoration:none;
-    border-bottom: 1px solid color-mix(in srgb, var(--hb-ink) 28%, transparent);
-    white-space:nowrap;
-    opacity:.9;
-  }
-  .hb-ann__link:hover{ opacity:1; }
 
-  /* Header */
-  .hb-header{
-    position: sticky;
-    top: {% if section.settings.show_announcement %}44px{% else %}0px{% endif %};
-    z-index: 70;
-    background: rgba(255,255,255,.28);
-    backdrop-filter: blur(14px);
-    border-bottom: 1px solid var(--hb-border);
-  }
-  .hb-header__inner{
-    display:grid;
-    grid-template-columns: 1fr auto 1fr;
-    align-items:center;
-    padding: 12px 0;
+  .hb-header__left {
+    display: flex;
+    align-items: center;
     gap: 14px;
   }
 
-  /* Left */
-  .hb-header__left{ display:flex; align-items:center; gap: 14px; }
-  .hb-nav{ display:block; }
-  .hb-nav__list{ display:flex; gap: 6px; margin:0; padding:0; list-style:none; }
-  .hb-nav__link{
-    display:inline-flex;
-    align-items:center;
-    padding: 10px 12px;
-    border-radius: 999px;
-    text-decoration:none;
-    color: var(--hb-ink);
-    letter-spacing:.02em;
-    position:relative;
-    background: transparent;
-    transition: transform .12s ease, background .12s ease;
-  }
-  .hb-nav__link:hover{
-    background: rgba(255,255,255,.28);
-    transform: translateY(-1px);
-  }
-  .hb-nav__link:after{
-    content:"";
-    position:absolute;
-    left: 14px; right: 14px; bottom: 6px;
-    height: 1px;
-    background: linear-gradient(90deg,
-      transparent,
-      color-mix(in srgb, var(--hb-blush) 70%, transparent),
-      color-mix(in srgb, var(--hb-lilac) 70%, transparent),
-      transparent
-    );
-    opacity: 0;
-    transition: opacity .15s ease;
-  }
-  .hb-nav__link:hover:after{ opacity: 1; }
-
-  /* Center logo */
-  .hb-logo{ text-decoration:none; color:var(--hb-ink); display:flex; justify-content:center; }
-  .hb-logo__img{ height: {{ section.settings.logo_height }}px; width:auto; display:block; }
-  .hb-logo__text{
-    font-family: ui-serif, "Iowan Old Style","Palatino Linotype",Palatino,Garamond,Georgia,serif;
-    font-size: 1.55rem;
-    letter-spacing: -.01em;
-  }
-  .hb-tagline{
-    text-align:center;
-    font-size:.82rem;
-    letter-spacing:.14em;
-    text-transform:uppercase;
-    opacity:.72;
-    margin-top: 4px;
-  }
-
-  /* Right icons */
-  .hb-header__right{ display:flex; justify-content:flex-end; align-items:center; gap: 10px; }
-  .hb-icon{
-    width: 42px; height: 42px;
-    display:grid; place-items:center;
-    border-radius: 999px;
-    border: 1px solid var(--hb-border);
-    background: rgba(255,255,255,.22);
-    text-decoration:none;
-    color: var(--hb-ink);
-    box-shadow: 0 10px 22px rgba(0,0,0,.06);
-    transition: transform .12s ease, background .12s ease;
-    position:relative;
-    font-size: 18px;
+  .hb-logo {
+    text-decoration: none;
+    color: #6a452f;
     line-height: 1;
   }
-  .hb-icon:hover{
-    transform: translateY(-1px);
-    background: rgba(255,255,255,.30);
-  }
-  .hb-cart__bubble{
-    position:absolute;
-    top: -6px; right: -6px;
-    min-width: 18px; height: 18px;
-    padding: 0 6px;
-    border-radius: 999px;
-    display:grid; place-items:center;
-    background: var(--hb-ink);
-    color: var(--hb-cream);
-    font-size: 12px;
-    border: 1px solid color-mix(in srgb, var(--hb-chrome) 30%, transparent);
-    box-shadow: 0 10px 22px rgba(0,0,0,.18);
+
+  .hb-logo__img {
+    height: {{ section.settings.logo_height }}px;
+    width: auto;
+    display: block;
   }
 
-  /* Burger (mobile) */
-  .hb-burger{
-    width: 42px; height: 42px;
-    border-radius: 999px;
-    border: 1px solid var(--hb-border);
-    background: rgba(255,255,255,.22);
-    display:none;
-    place-items:center;
-    cursor:pointer;
-  }
-  .hb-burger__lines{
-    width: 18px; height: 12px;
-    position: relative;
-  }
-  .hb-burger__lines:before,
-  .hb-burger__lines:after{
-    content:"";
-    position:absolute;
-    left:0; right:0;
-    height:2px;
-    background: var(--hb-ink);
-    border-radius: 2px;
-  }
-  .hb-burger__lines:before{ top:0; }
-  .hb-burger__lines:after{ bottom:0; }
-  .hb-burger__lines{
-    background: var(--hb-ink);
-    height:2px;
-    border-radius:2px;
+  .hb-logo__text {
+    font-family: Georgia, serif;
+    font-size: 2rem;
+    letter-spacing: 0.01em;
   }
 
-  /* Drawer */
-  .hb-drawer{ position: fixed; inset: 0; z-index: 90; display:none; }
-  .hb-drawer.is-open{ display:block; }
-  .hb-drawer__backdrop{ position:absolute; inset:0; background: rgba(0,0,0,.25); }
-  .hb-drawer__panel{
-    position:absolute; top:0; left:0; bottom:0;
-    width: min(420px, 88vw);
-    background: rgba(255,255,255,.55);
-    backdrop-filter: blur(16px);
-    border-right: 1px solid var(--hb-border);
-    box-shadow: 20px 0 60px rgba(0,0,0,.18);
-    padding: 14px;
-    display:flex;
-    flex-direction:column;
+  .hb-nav {
+    justify-self: start;
+  }
+
+  .hb-nav__list {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    margin: 0;
+    padding: 0;
+  }
+
+  .hb-nav__link {
+    text-decoration: none;
+    color: #6a452f;
+    font-size: 1rem;
+    line-height: 1;
+    padding-bottom: 4px;
+    border-bottom: 1px solid transparent;
+    transition: opacity 0.15s ease, border-color 0.15s ease;
+  }
+
+  .hb-nav__link:hover,
+  .hb-nav__link.is-active {
+    border-bottom-color: #6a452f;
+  }
+
+  .hb-header__right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
     gap: 12px;
   }
-  .hb-drawer__top{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding: 8px 6px 10px;
-    border-bottom: 1px solid var(--hb-border);
-  }
-  .hb-drawer__title{
-    font-family: ui-serif, "Iowan Old Style","Palatino Linotype",Palatino,Garamond,Georgia,serif;
-    font-size: 1.2rem;
-    letter-spacing: -.01em;
-  }
-  .hb-drawer__close{
-    width: 42px; height: 42px;
-    border-radius: 999px;
-    border: 1px solid var(--hb-border);
-    background: rgba(255,255,255,.25);
-    cursor:pointer;
-  }
-  .hb-drawer__list{ list-style:none; margin:0; padding: 8px 0; display:flex; flex-direction:column; gap: 6px; }
-  .hb-drawer__link{
-    display:flex;
-    padding: 12px 12px;
-    border-radius: 14px;
-    text-decoration:none;
-    color: var(--hb-ink);
-    border: 1px solid transparent;
-    background: rgba(255,255,255,.18);
-  }
-  .hb-drawer__link:hover{
-    border-color: var(--hb-border);
-    background: rgba(255,255,255,.26);
-  }
-  .hb-drawer__note{
-    margin-top:auto;
-    padding: 12px;
-    border-radius: 14px;
-    border: 1px solid var(--hb-border);
-    background: rgba(255,255,255,.22);
-    opacity:.9;
+
+  .hb-icon {
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #6a452f;
+    text-decoration: none;
+    position: relative;
   }
 
-  /* Responsive */
-  @media (max-width: 990px){
-    .hb-nav{ display:none; }
-    .hb-burger{ display:grid; }
-    .hb-header__inner{ grid-template-columns: auto 1fr auto; }
-    .hb-logo{ justify-content:center; }
-    .hb-tagline{ display:none; }
+  .hb-icon svg {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
-  @media (max-width: 740px){
-    .hb-ann__link{ display:none; }
+
+  .hb-cart__bubble {
+    position: absolute;
+    right: -6px;
+    top: -5px;
+    min-width: 16px;
+    height: 16px;
+    border-radius: 999px;
+    background: #6a452f;
+    color: #eadfa9;
+    font-size: 10px;
+    display: grid;
+    place-items: center;
+    padding: 0 4px;
+  }
+
+  .hb-burger {
+    display: none;
+    width: 36px;
+    height: 36px;
+    border: 1px solid rgba(90, 62, 40, 0.3);
+    border-radius: 999px;
+    background: transparent;
+    color: #6a452f;
+    cursor: pointer;
+  }
+
+  .hb-burger__lines,
+  .hb-burger__lines::before,
+  .hb-burger__lines::after {
+    content: "";
+    display: block;
+    width: 16px;
+    height: 1.5px;
+    background: currentColor;
+    border-radius: 2px;
+    transition: transform 0.2s ease;
+  }
+
+  .hb-burger__lines::before {
+    transform: translateY(-5px);
+  }
+
+  .hb-burger__lines::after {
+    transform: translateY(3.5px);
+  }
+
+  .hb-drawer {
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    display: none;
+  }
+
+  .hb-drawer.is-open {
+    display: block;
+  }
+
+  .hb-drawer__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.25);
+  }
+
+  .hb-drawer__panel {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: min(360px, 86vw);
+    background: #f6efcc;
+    border-right: 1px solid rgba(90, 62, 40, 0.2);
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .hb-drawer__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(90, 62, 40, 0.2);
+    padding-bottom: 8px;
+  }
+
+  .hb-drawer__title {
+    font-family: Georgia, serif;
+    color: #6a452f;
+    font-size: 1.2rem;
+  }
+
+  .hb-drawer__close {
+    border: 0;
+    background: transparent;
+    color: #6a452f;
+    font-size: 1.6rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .hb-drawer__list {
+    list-style: none;
+    margin: 0;
+    padding: 6px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .hb-drawer__link {
+    display: block;
+    text-decoration: none;
+    color: #6a452f;
+    padding: 10px 8px;
+    border-bottom: 1px solid rgba(90, 62, 40, 0.14);
+  }
+
+  @media (max-width: 989px) {
+    .hb-header__inner {
+      min-height: 76px;
+      grid-template-columns: auto 1fr auto;
+      gap: 12px;
+    }
+
+    .hb-burger {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hb-nav {
+      display: none;
+    }
+
+    .hb-logo__img {
+      height: {{ section.settings.logo_height | minus: 4 | at_least: 24 }}px;
+    }
   }
 </style>
 
 <script>
-(function(){
-  const wrap = document.querySelector('[data-hb-header]');
-  if(!wrap) return;
+  (function() {
+    var wrap = document.querySelector('[data-hb-header]');
+    if (!wrap) return;
 
-  const drawer = wrap.querySelector('[data-hb-drawer]');
-  const openBtn = wrap.querySelector('[data-hb-drawer-open]');
-  const closeEls = wrap.querySelectorAll('[data-hb-drawer-close]');
+    var drawer = wrap.querySelector('[data-hb-drawer]');
+    var openBtn = wrap.querySelector('[data-hb-drawer-open]');
+    var closeEls = wrap.querySelectorAll('[data-hb-drawer-close]');
 
-  if(!drawer || !openBtn) return;
+    if (!drawer || !openBtn) return;
 
-  function open(){
-    drawer.classList.add('is-open');
-    drawer.setAttribute('aria-hidden','false');
-    openBtn.setAttribute('aria-expanded','true');
-    document.documentElement.style.overflow = 'hidden';
-  }
-  function close(){
-    drawer.classList.remove('is-open');
-    drawer.setAttribute('aria-hidden','true');
-    openBtn.setAttribute('aria-expanded','false');
-    document.documentElement.style.overflow = '';
-  }
+    function openDrawer() {
+      drawer.classList.add('is-open');
+      drawer.setAttribute('aria-hidden', 'false');
+      openBtn.setAttribute('aria-expanded', 'true');
+      document.documentElement.style.overflow = 'hidden';
+    }
 
-  openBtn.addEventListener('click', open);
-  closeEls.forEach(el => el.addEventListener('click', close));
-  document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') close(); });
+    function closeDrawer() {
+      drawer.classList.remove('is-open');
+      drawer.setAttribute('aria-hidden', 'true');
+      openBtn.setAttribute('aria-expanded', 'false');
+      document.documentElement.style.overflow = '';
+    }
 
-  // close drawer on navigation
-  drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', close));
-})();
+    openBtn.addEventListener('click', openDrawer);
+    closeEls.forEach(function(el) {
+      el.addEventListener('click', closeDrawer);
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeDrawer();
+    });
+
+    drawer.querySelectorAll('a').forEach(function(link) {
+      link.addEventListener('click', closeDrawer);
+    });
+  })();
 </script>
 
 {% schema %}
 {
-  "name": "HB Custom Header",
+  "name": "HB Header",
   "settings": [
     { "type": "image_picker", "id": "logo", "label": "Logo image" },
     { "type": "text", "id": "logo_text", "label": "Logo text (fallback)", "default": "honey&blush" },
-    { "type": "range", "id": "logo_height", "label": "Logo height (px)", "min": 20, "max": 64, "step": 2, "default": 34 },
-
-    { "type": "text", "id": "tagline", "label": "Tagline (optional)", "default": "clean girl meets soft rebellion" },
-
+    { "type": "range", "id": "logo_height", "label": "Logo height (px)", "min": 24, "max": 72, "step": 2, "default": 52 },
     { "type": "link_list", "id": "menu", "label": "Menu" },
-
     { "type": "checkbox", "id": "show_search", "label": "Show search icon", "default": true },
     { "type": "checkbox", "id": "show_account", "label": "Show account icon", "default": true },
     { "type": "checkbox", "id": "show_cart", "label": "Show cart icon", "default": true },
-
-    { "type": "checkbox", "id": "show_announcement", "label": "Show announcement bar", "default": true },
-    { "type": "text", "id": "ann_badge", "label": "Announcement badge", "default": "NEW DROP" },
-    { "type": "text", "id": "ann_text", "label": "Announcement text", "default": "cozy tees ✧ soft menace energy ✧ printed to order" },
-    { "type": "text", "id": "ann_link_label", "label": "Announcement link label", "default": "Shop now" },
-    { "type": "url", "id": "ann_link_url", "label": "Announcement link URL" },
-
-    { "type": "text", "id": "drawer_title", "label": "Drawer title", "default": "honey&blush" },
-    { "type": "text", "id": "drawer_note", "label": "Drawer note", "default": "Printed to order • No overstock • Less waste" }
+    { "type": "text", "id": "drawer_title", "label": "Drawer title", "default": "honey&blush" }
   ],
   "presets": [
-    { "name": "HB Custom Header" }
+    { "name": "HB Header" }
   ]
 }
 {% endschema %}
