@@ -9,76 +9,75 @@
  */
 {
   "sections": {
-    "image_banner": {
-      "type": "image-banner",
+    "hb_hero_slideshow_HBkeie": {
+      "type": "hb-hero-slideshow",
       "blocks": {
-        "heading": {
-          "type": "heading",
+        "slide_iBxebK": {
+          "type": "slide",
           "settings": {
-            "heading": "Browse our latest products",
-            "heading_size": "h0"
+            "kicker": "honey&blush",
+            "title": "Clean girl,\nsoft rebellion.",
+            "text": "Cozy graphic tees with a little bite. Minimal, flirty, slightly unhinged (in a cute way).",
+            "btn_label": "Shop new drop",
+            "btn_link": "",
+            "sub_label": "See collections",
+            "sub_link": "",
+            "note": "Printed to order • EU shipping available"
           }
         },
-        "button": {
-          "type": "buttons",
+        "slide_hmFwTW": {
+          "type": "slide",
           "settings": {
-            "button_label_1": "Shop all",
-            "button_link_1": "shopify://collections/all",
-            "button_style_secondary_1": true,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
+            "kicker": "honey&blush",
+            "title": "Clean girl,\nsoft rebellion.",
+            "text": "Cozy graphic tees with a little bite. Minimal, flirty, slightly unhinged (in a cute way).",
+            "btn_label": "Shop new drop",
+            "btn_link": "",
+            "sub_label": "See collections",
+            "sub_link": "",
+            "note": "Printed to order • EU shipping available"
+          }
+        },
+        "slide_ExtM7g": {
+          "type": "slide",
+          "settings": {
+            "kicker": "honey&blush",
+            "title": "Clean girl,\nsoft rebellion.",
+            "text": "Cozy graphic tees with a little bite. Minimal, flirty, slightly unhinged (in a cute way).",
+            "btn_label": "Shop new drop",
+            "btn_link": "",
+            "sub_label": "See collections",
+            "sub_link": "",
+            "note": "Printed to order • EU shipping available"
           }
         }
       },
       "block_order": [
-        "heading",
-        "button"
+        "slide_iBxebK",
+        "slide_hmFwTW",
+        "slide_ExtM7g"
       ],
+      "name": "HB Hero Slideshow (Y2K)",
       "settings": {
-        "image_overlay_opacity": 40,
-        "image_height": "large",
-        "desktop_content_position": "bottom-center",
-        "show_text_box": false,
-        "image_behavior": "none",
-        "desktop_content_alignment": "center",
-        "color_scheme": "scheme-3",
-        "mobile_content_alignment": "center",
-        "stack_images_on_mobile": false,
-        "show_text_below": false
+        "autoplay": true,
+        "autoplay_ms": 4500
       }
     },
-    "featured_collection": {
-      "type": "featured-collection",
+    "hb_story_split_LXMycm": {
+      "type": "hb-story-split",
+      "name": "HB Story Split",
       "settings": {
-        "title": "Featured products",
-        "heading_size": "h2",
-        "description": "",
-        "show_description": false,
-        "description_style": "body",
-        "collection": "all",
-        "products_to_show": 8,
-        "columns_desktop": 4,
-        "color_scheme": "scheme-1",
-        "full_width": false,
-        "show_view_all": true,
-        "view_all_style": "solid",
-        "enable_desktop_slider": false,
-        "swipe_on_mobile": false,
-        "image_ratio": "adapt",
-        "image_shape": "default",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": false,
-        "quick_add": "none",
-        "columns_mobile": "2",
-        "padding_top": 44,
-        "padding_bottom": 36
+        "kicker": "honey&blush",
+        "title": "Soft, but make it spicy.",
+        "text": "<p>We make cozy graphic tees for girls who look innocent and think dangerous.</p><p>Clean lines, Y2K sparkle, and just enough attitude.</p>",
+        "btn_label": "Read our story",
+        "btn_link": "",
+        "tagline": "Printed to order • no overstock • less waste"
       }
     }
   },
   "order": [
-    "image_banner",
-    "featured_collection"
+    "hb_hero_slideshow_HBkeie",
+    "hb_story_split_LXMycm"
   ]
 }
