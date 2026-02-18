@@ -44,12 +44,12 @@
 
 <style>
   .hb-hero-lucky {
-    background: #f8f7f3;
-    border-bottom: 1px solid #e8e1da;
+    background: #f2f2f2;
+    border-bottom: 1px solid #ddd5cf;
   }
 
   .hb-hero {
-    max-width: 1920px;
+    max-width: 100%;
     margin: 0 auto;
     position: relative;
   }
@@ -57,90 +57,91 @@
   .hb-hero__track {
     position: relative;
     overflow: hidden;
-    min-height: 560px;
+    min-height: 590px;
   }
 
   .hb-hero__slide {
     display: grid;
-    grid-template-columns: 1.05fr 0.95fr;
-    align-items: center;
-    gap: clamp(20px, 4vw, 64px);
-    min-height: 560px;
-    padding: 34px clamp(24px, 7vw, 140px) 46px;
+    place-items: center;
+    min-height: 590px;
+    padding: 42px 20px;
     position: relative;
   }
 
   .hb-hero__copy {
-    max-width: 560px;
-    z-index: 1;
+    width: min(100%, 560px);
+    text-align: center;
+    background: #f3f3f3;
+    border-radius: 8px;
+    padding: 46px 34px 42px;
+    z-index: 2;
+    box-shadow: 0 6px 22px rgba(48, 26, 13, 0.12);
   }
 
   .hb-hero__kicker {
-    margin-bottom: 10px;
+    margin-bottom: 12px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    font-size: 0.78rem;
-    color: #7f6455;
+    font-size: 0.76rem;
+    color: #7a5946;
   }
 
   .hb-hero__title {
-    color: #5b2d17;
-    font-size: clamp(2rem, 4.1vw, 4rem);
-    line-height: 1.02;
+    color: #4e260f;
+    font-size: clamp(2rem, 4.4vw, 3.4rem);
+    line-height: 1.08;
     letter-spacing: -0.01em;
     margin: 0;
     font-family: var(--hb-font-display, Georgia, serif);
   }
 
   .hb-hero__text {
-    margin: 14px 0 0;
-    font-size: clamp(1rem, 1.25vw, 1.9rem);
-    color: #8a6654;
-    max-width: 40ch;
+    margin: 16px auto 0;
+    font-size: clamp(1.02rem, 1.2vw, 1.5rem);
+    color: #7b5c4b;
+    max-width: 34ch;
   }
 
   .hb-hero__cta {
-    margin-top: 24px;
+    margin-top: 26px;
   }
 
   .hb-hero__button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 220px;
-    min-height: 50px;
-    padding: 12px 30px;
+    min-width: 240px;
+    min-height: 48px;
+    padding: 12px 28px;
     border-radius: 999px;
-    background: #8f0f1c;
-    color: #ffe0b9;
+    background: #6d3415;
+    color: #fff0cf;
     text-decoration: none;
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: 0.01em;
   }
 
   .hb-hero__media {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 420px;
+    position: absolute;
+    inset: 0;
+    z-index: 1;
   }
 
   .hb-hero__img {
     width: 100%;
-    max-width: 760px;
-    height: auto;
-    object-fit: contain;
+    height: 100%;
+    object-fit: cover;
     display: block;
   }
 
   .hb-hero__ph {
-    min-height: 320px;
-    min-width: 320px;
+    position: absolute;
+    inset: 0;
     display: grid;
     place-items: center;
-    color: #8a6654;
+    color: #5b2d17;
+    background: linear-gradient(120deg, #efd7c2, #d5b497);
     border: 1px dashed #d5c8be;
-    border-radius: 12px;
     padding: 20px;
   }
 
@@ -149,17 +150,17 @@
     align-items: center;
     justify-content: center;
     gap: 12px;
-    min-height: 44px;
-    border-top: 1px solid #e8e1da;
-    background: #f8f7f3;
+    min-height: 46px;
+    border-top: 1px solid #ddd5cf;
+    background: #efefef;
   }
 
   .hb-hero__arrow,
   .hb-hero__pause {
     border: 0;
     background: transparent;
-    color: #7f5a48;
-    font-size: 18px;
+    color: #745440;
+    font-size: 17px;
     line-height: 1;
     min-width: 26px;
     min-height: 26px;
@@ -173,18 +174,18 @@
   }
 
   .hb-dot {
-    width: 10px;
-    height: 10px;
+    width: 11px;
+    height: 11px;
     border-radius: 999px;
-    border: 1px solid #9d8476;
+    border: 1px solid #9c8171;
     background: transparent;
     cursor: pointer;
     padding: 0;
   }
 
   .hb-dot.is-active {
-    background: #6f3b24;
-    border-color: #6f3b24;
+    background: #6d3415;
+    border-color: #6d3415;
   }
 
   .hb-hero__pause.is-paused {
@@ -193,24 +194,21 @@
 
   @media (max-width: 980px) {
     .hb-hero__slide {
-      grid-template-columns: 1fr;
-      text-align: center;
-      min-height: 0;
-      padding: 24px 20px 30px;
-      gap: 14px;
+      min-height: 500px;
+      padding: 20px 14px;
     }
 
     .hb-hero__copy {
-      margin: 0 auto;
-      max-width: 100%;
+      width: min(100%, 92vw);
+      padding: 34px 22px 30px;
     }
 
-    .hb-hero__media {
-      min-height: 260px;
+    .hb-hero__track {
+      min-height: 500px;
     }
 
     .hb-hero__button {
-      min-width: 200px;
+      min-width: 210px;
     }
   }
 </style>
